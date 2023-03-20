@@ -1,4 +1,4 @@
-package shop.mtcoding.mydto.model.board;
+package shop.mtcoding.mydto.dto;
 
 import java.sql.Timestamp;
 
@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Board {
+public class BoardDto {
     private Integer id;
     private String title;
     private String content;
-    private int userId;
+    // private UserDto user;
     private Timestamp createdAt;
 }

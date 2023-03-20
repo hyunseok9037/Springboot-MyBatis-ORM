@@ -4,6 +4,67 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="shop.mtcoding.mydto.model.board.BoardRepository">
+
+     <resultMap id="v3ResultMap" type="shop.mtcoding.mydto.dto.BoardJoinUserDtoV3">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="created_at"/>
+        <association property="user" javaType="shop.mtcoding.mydto.dto.BoardJoinUserDtoV3$UserDto">
+            <id property="id" column="id"/>
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="email" column="email"/>
+            <result property="createdAt" column="created_at"/>
+        </association>
+    </resultMap>
+
+    <select id="findByIdJoinUserV3" resultMap="v3ResultMap">
+        select *
+        from board_tb b inner join user_tb u
+        ON b.user_id = u.id
+        WHERE b.id = #{id}
+    </select>
+
+    <resultMap id="v2BoardDto" type="shop.mtcoding.mydto.dto.BoardDto">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <resultMap id="v2UserDto" type="shop.mtcoding.mydto.dto.UserDto">
+        <id property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="email" column="email" />
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <resultMap id="v2ResultMap" type="shop.mtcoding.mydto.dto.BoardJoinUserDtoV2">
+        <association property="board" resultMap="boardDto" />
+        <association property="user" resultMap="userDto" />
+    </resultMap>
+
+    <select id="findByIdJoinUserV2" resultMap="v2ResultMap">
+        select * 
+        from board_tb b inner join user_tb u
+        ON b.user_id = u.id
+        where b.id = #{id}
+    </select>
+
+    <select id="findByIdJoinUserV1" resultType="shop.mtcoding.mydto.dto.BoardJoinUserDtoV1Flattern">
+        select b.*, 
+        u.id user_id,
+        u.username user_username,
+        u.password user_password,
+        u.email user_eamil,
+        u.created_at user_created_at
+        from board_tb b inner join user_tb u
+        ON b.user_id = u.id
+        where b.id = #{id}
+    </select>
+
     <select id="findAll" resultType="shop.mtcoding.mydto.model.board.Board">
         select * from board_tb
     </select>
